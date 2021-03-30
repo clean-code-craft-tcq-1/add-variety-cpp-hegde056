@@ -41,12 +41,18 @@ TEST_CASE("classifies the temperature breach for med active cooling - Test for H
 
 TEST_CASE("check and alert via email") {
 	AlertTarget* emailAlertobj = new EmailAlert;
-	BatteryCharacter newbattery = { PASSIVE_COOLING , "Voltas"};
+	BatteryCharacter newbattery = { PASSIVE_COOLING , "Exide"};
 	checkAndAlert( emailAlertobj , newbattery , 55) ;
+}
+
+TEST_CASE("check and alert via email") {
+	AlertTarget* emailAlertobj = new EmailAlert;
+	BatteryCharacter newbattery = { HI_ACTIVE_COOLING , "Amara Raja" };
+	checkAndAlert(emailAlertobj, newbattery, 30);
 }
 
 TEST_CASE("check and alert via controller") {
 	AlertTarget* controllerAlertobj = new ControllerAlert;
-	BatteryCharacter newbattery = { MED_ACTIVE_COOLING , "Exide" };
+	BatteryCharacter newbattery = { MED_ACTIVE_COOLING , "Duracell" };
 	checkAndAlert(controllerAlertobj, newbattery, 50);
 }
