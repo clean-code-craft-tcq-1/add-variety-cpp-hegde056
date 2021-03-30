@@ -39,19 +39,19 @@ TEST_CASE("classifies the temperature breach for med active cooling - Test for H
 	REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING, 50) == TOO_HIGH);
 }
 
-TEST_CASE("check and alert via email") {
+TEST_CASE("check and alert via email - Test for Alert") {
 	AlertTarget* emailAlertobj = new EmailAlert;
 	BatteryCharacter newbattery = { PASSIVE_COOLING , "Exide"};
 	checkAndAlert( emailAlertobj , newbattery , 55) ;
 }
 
-TEST_CASE("check and alert via email") {
+TEST_CASE("check and alert via email - Test for No alert") {
 	AlertTarget* emailAlertobj = new EmailAlert;
 	BatteryCharacter newbattery = { HI_ACTIVE_COOLING , "Amara Raja" };
 	checkAndAlert(emailAlertobj, newbattery, 30);
 }
 
-TEST_CASE("check and alert via controller") {
+TEST_CASE("check and alert via controller - Test for alert") {
 	AlertTarget* controllerAlertobj = new ControllerAlert;
 	BatteryCharacter newbattery = { MED_ACTIVE_COOLING , "Duracell" };
 	checkAndAlert(controllerAlertobj, newbattery, 50);
