@@ -1,5 +1,5 @@
 #include "typewise-alert.h"
-#include <stdio.h>
+#include <iostream>
 
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   if(value < lowerLimit) {
@@ -27,22 +27,14 @@ void checkAndAlert( AlertTarget *alertTarget, BatteryCharacter batteryChar, doub
 
 void sendToController(BreachType breachType) {
   const unsigned short header = 0xfeed;
-  printf("%x : %x\n", header, breachType);
+  std::cout << std::hex << header << " : " << std::hex << breachType << std::endl;
 }
 
 void sendToEmail(BreachType breachType) {
   const char* recepient = "a.b@c.com";
-  switch(breachType) {
-    case TOO_LOW:
-      printf("To: %s\n", recepient);
-      printf("Hi, the temperature is too low\n");
-      break;
-    case TOO_HIGH:
-      printf("To: %s\n", recepient);
-      printf("Hi, the temperature is too high\n");
-      break;
-    case NORMAL:
-      break;
+  if (breachType != NORMAL)
+  {
+      std::cout << "To: " << recepient <<"\n" << EmailMsgMap[breachType] << std::endl;
   }
 }
 
@@ -54,5 +46,4 @@ void EmailAlert::sendAlert(BreachType breachType)
 void ControllerAlert::sendAlert(BreachType breachType)
 {
     sendToController(breachType);
-
 }

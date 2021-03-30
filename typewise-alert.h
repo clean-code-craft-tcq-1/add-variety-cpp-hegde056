@@ -1,5 +1,6 @@
 #pragma once
 #include<map>
+#include<string>
 
 typedef std::pair<double, double> limits;
 
@@ -22,13 +23,14 @@ static std::map<CoolingType, limits> CoolingLimitsMap =
 	{MED_ACTIVE_COOLING , std::make_pair(0,40)}
 };
 
+static std::map<BreachType, std::string> EmailMsgMap =
+{
+	{TOO_LOW , "Hi, the temperature is too low\n"},
+	{TOO_HIGH , "Hi, the temperature is too high\n"}
+};
+
 BreachType inferBreach(double value, double lowerLimit, double upperLimit);
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC);
-
-//typedef enum {
-//  TO_CONTROLLER,
-//  TO_EMAIL
-//} AlertTarget;
 
 typedef struct {
   CoolingType coolingType;
