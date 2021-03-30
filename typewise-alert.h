@@ -1,7 +1,7 @@
 #pragma once
 #include<map>
 
-typedef std::pair<int, int> limits;
+typedef std::pair<double, double> limits;
 
 typedef enum {
   PASSIVE_COOLING,
@@ -25,18 +25,35 @@ static std::map<CoolingType, limits> CoolingLimitsMap =
 BreachType inferBreach(double value, double lowerLimit, double upperLimit);
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC);
 
-typedef enum {
-  TO_CONTROLLER,
-  TO_EMAIL
-} AlertTarget;
+//typedef enum {
+//  TO_CONTROLLER,
+//  TO_EMAIL
+//} AlertTarget;
 
 typedef struct {
   CoolingType coolingType;
   char brand[48];
 } BatteryCharacter;
 
-void checkAndAlert(
-  AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
+class AlertTarget
+{
+public:
+	virtual void sendAlert(BreachType) = 0;
+};
+
+class EmailAlert : public AlertTarget
+{
+public:
+	void sendAlert(BreachType);
+};
+
+class ControllerAlert : public AlertTarget
+{
+public:
+	void sendAlert(BreachType);
+};
+
+void checkAndAlert(AlertTarget* alertTarget, BatteryCharacter batteryChar, double temperatureInC);
 
 void sendToController(BreachType breachType);
 void sendToEmail(BreachType breachType);

@@ -12,23 +12,17 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
 }
 
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) {
-  int lowerLimit = CoolingLimitsMap[coolingType].first;
-  int upperLimit = CoolingLimitsMap[coolingType].second;
+  double lowerLimit = CoolingLimitsMap[coolingType].first;
+  double upperLimit = CoolingLimitsMap[coolingType].second;
   return inferBreach(temperatureInC, lowerLimit, upperLimit);
 }
 
-void checkAndAlert( AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
+void checkAndAlert( AlertTarget *alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
 
   BreachType breachType = classifyTemperatureBreach( batteryChar.coolingType, temperatureInC);
 
-  switch(alertTarget) {
-    case TO_CONTROLLER:
-      sendToController(breachType);
-      break;
-    case TO_EMAIL:
-      sendToEmail(breachType);
-      break;
-  }
+  alertTarget->sendAlert(breachType);
+
 }
 
 void sendToController(BreachType breachType) {
@@ -50,4 +44,15 @@ void sendToEmail(BreachType breachType) {
     case NORMAL:
       break;
   }
+}
+
+void EmailAlert::sendAlert(BreachType breachType)
+{
+    sendToEmail(breachType);
+}
+
+void ControllerAlert::sendAlert(BreachType breachType)
+{
+    sendToController(breachType);
+
 }
