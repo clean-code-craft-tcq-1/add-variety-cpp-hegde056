@@ -43,16 +43,40 @@ TEST_CASE("check and alert via email - Test for Alert") {
 	AlertTarget* emailAlertobj = new EmailAlert;
 	BatteryCharacter newbattery = { PASSIVE_COOLING , "Exide"};
 	checkAndAlert( emailAlertobj , newbattery , 55) ;
+	REQUIRE(emailAlertobj->isAlertSent() == true);
 }
 
 TEST_CASE("check and alert via email - Test for No alert") {
 	AlertTarget* emailAlertobj = new EmailAlert;
 	BatteryCharacter newbattery = { HI_ACTIVE_COOLING , "Amara Raja" };
 	checkAndAlert(emailAlertobj, newbattery, 30);
+	REQUIRE(emailAlertobj->isAlertSent() == false);
 }
 
 TEST_CASE("check and alert via controller - Test for alert") {
 	AlertTarget* controllerAlertobj = new ControllerAlert;
 	BatteryCharacter newbattery = { MED_ACTIVE_COOLING , "Duracell" };
 	checkAndAlert(controllerAlertobj, newbattery, 50);
+	REQUIRE(controllerAlertobj->isAlertSent() == true);
+}
+
+TEST_CASE("check and alert via controller - Test for No alert??") {
+	AlertTarget* controllerAlertobj = new ControllerAlert;
+	BatteryCharacter newbattery = { MED_ACTIVE_COOLING , "Duracell" };
+	checkAndAlert(controllerAlertobj, newbattery, 30);
+	REQUIRE(controllerAlertobj->isAlertSent() == true);
+}
+
+TEST_CASE("check and alert via console - Test for Alert") {
+	AlertTarget* consoleAlertobj = new ConsoleAlert;
+	BatteryCharacter newbattery = { PASSIVE_COOLING , "Exide" };
+	checkAndAlert(consoleAlertobj, newbattery, -5);
+	REQUIRE(consoleAlertobj->isAlertSent() == true);
+}
+
+TEST_CASE("check and alert via console - Test for No alert") {
+	AlertTarget* consoleAlertobj = new ConsoleAlert;
+	BatteryCharacter newbattery = { HI_ACTIVE_COOLING , "Amara Raja" };
+	checkAndAlert(consoleAlertobj, newbattery, 30);
+	REQUIRE(consoleAlertobj->isAlertSent() == false);
 }
