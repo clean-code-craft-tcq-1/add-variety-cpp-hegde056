@@ -32,18 +32,50 @@ void sendToController(BreachType breachType) {
 
 void sendToEmail(BreachType breachType) {
   const char* recepient = "a.b@c.com";
-  if (breachType != NORMAL)
-  {
-      std::cout << "To: " << recepient <<"\n" << EmailMsgMap[breachType] << std::endl;
-  }
+  std::cout << "To: " << recepient << "\n" << EmailMsgMap[breachType] << std::endl;
+}
+
+void sendToConsole(BreachType breachType){
+    std::cout << "Breach Detected: " << ConsoleMsgMap[breachType] << std::endl;
 }
 
 void EmailAlert::sendAlert(BreachType breachType)
 {
-    sendToEmail(breachType);
+    if (breachType != NORMAL)
+    {
+        sendToEmail(breachType);
+        m_EmailAlertSent = true;
+    }
+}
+
+bool EmailAlert::isAlertSent()
+{
+    return m_EmailAlertSent;
 }
 
 void ControllerAlert::sendAlert(BreachType breachType)
 {
+
     sendToController(breachType);
+    m_ControllerAlertSent = true;
+
+}
+
+bool ControllerAlert::isAlertSent()
+{
+    return m_ControllerAlertSent;
+}
+
+void ConsoleAlert::sendAlert(BreachType breachType)
+{
+    if (breachType != NORMAL)
+    {
+        sendToConsole(breachType);
+        m_ConsoleAlertSent = true;
+    }
+}
+
+bool ConsoleAlert::isAlertSent()
+{
+    return m_ConsoleAlertSent;
 }
